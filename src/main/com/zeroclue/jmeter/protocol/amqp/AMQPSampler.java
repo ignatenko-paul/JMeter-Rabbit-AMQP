@@ -1,17 +1,19 @@
 package com.zeroclue.jmeter.protocol.amqp;
 
-import java.io.IOException;
-import java.util.*;
-import java.security.*;
-
 import com.rabbitmq.client.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.samplers.AbstractSampler;
 import org.apache.jmeter.testelement.ThreadListener;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
-import com.rabbitmq.client.AMQP.BasicProperties;
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public abstract class AMQPSampler extends AbstractSampler implements ThreadListener {
 
@@ -65,7 +67,7 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
         factory.setRequestedHeartbeat(DEFAULT_HEARTBEAT);
     }
 
-    protected boolean initChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    protected boolean initChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
         Channel channel = getChannel();
 
         if (channel != null && !channel.isOpen()) {
@@ -396,18 +398,18 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
         }
     }
 
-    @Override
+    //@Override
     public void threadFinished() {
         log.info("AMQPSampler.threadFinished called");
         cleanup();
     }
 
-    @Override
+    //@Override
     public void threadStarted() {
 
     }
 
-    protected Channel createChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    protected Channel createChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
         log.info("Creating channel " + getVirtualHost() + ":" + getPortAsInt());
 
         if (connection == null || !connection.isOpen()) {
@@ -447,7 +449,7 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
         return channel;
     }
 
-    protected void deleteQueue() throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    protected void deleteQueue() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
         // use a different channel since channel closes on exception.
         Channel channel = createChannel();
         try {
@@ -463,7 +465,7 @@ public abstract class AMQPSampler extends AbstractSampler implements ThreadListe
         }
     }
 
-    protected void deleteExchange() throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    protected void deleteExchange() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
         // use a different channel since channel closes on exception.
         Channel channel = createChannel();
         try {

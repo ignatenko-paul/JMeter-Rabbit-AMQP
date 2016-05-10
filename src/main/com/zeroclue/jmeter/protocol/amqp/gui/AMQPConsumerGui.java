@@ -1,13 +1,10 @@
 package com.zeroclue.jmeter.protocol.amqp.gui;
 
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-
+import com.zeroclue.jmeter.protocol.amqp.AMQPConsumer;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jorphan.gui.JLabeledTextField;
 
-import com.zeroclue.jmeter.protocol.amqp.AMQPConsumer;
-
+import javax.swing.*;
 import java.awt.*;
 
 
@@ -80,7 +77,7 @@ public class AMQPConsumerGui extends AMQPSamplerGui {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public TestElement createTestElement() {
         AMQPConsumer sampler = new AMQPConsumer();
         modifyTestElement(sampler);
@@ -110,7 +107,7 @@ public class AMQPConsumerGui extends AMQPSamplerGui {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public String getLabelResource() {
         return this.getClass().getSimpleName();
     }

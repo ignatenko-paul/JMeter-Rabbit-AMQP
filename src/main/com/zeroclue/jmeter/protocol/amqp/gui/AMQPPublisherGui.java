@@ -1,16 +1,14 @@
 package com.zeroclue.jmeter.protocol.amqp.gui;
 
-import java.awt.Dimension;
-
-import javax.swing.*;
-
+import com.zeroclue.jmeter.protocol.amqp.AMQPPublisher;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jorphan.gui.JLabeledTextArea;
 import org.apache.jorphan.gui.JLabeledTextField;
 
-import com.zeroclue.jmeter.protocol.amqp.AMQPPublisher;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * AMQP Sampler
@@ -53,7 +51,7 @@ public class AMQPPublisherGui extends AMQPSamplerGui {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public String getLabelResource() {
         return this.getClass().getSimpleName();
     }
@@ -88,7 +86,7 @@ public class AMQPPublisherGui extends AMQPSamplerGui {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public TestElement createTestElement() {
         AMQPPublisher sampler = new AMQPPublisher();
         modifyTestElement(sampler);

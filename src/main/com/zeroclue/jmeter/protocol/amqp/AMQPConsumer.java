@@ -1,8 +1,9 @@
 package com.zeroclue.jmeter.protocol.amqp;
 
-import java.io.IOException;
-import java.security.*;
-
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.ConsumerCancelledException;
+import com.rabbitmq.client.QueueingConsumer;
+import com.rabbitmq.client.ShutdownSignalException;
 import org.apache.jmeter.samplers.Entry;
 import org.apache.jmeter.samplers.Interruptible;
 import org.apache.jmeter.samplers.SampleResult;
@@ -10,10 +11,10 @@ import org.apache.jmeter.testelement.TestStateListener;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.ConsumerCancelledException;
-import com.rabbitmq.client.QueueingConsumer;
-import com.rabbitmq.client.ShutdownSignalException;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeoutException;
 
 public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStateListener {
     private static final int DEFAULT_PREFETCH_COUNT = 0; // unlimited
@@ -43,7 +44,7 @@ public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStat
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public SampleResult sample(Entry entry) {
         SampleResult result = new SampleResult();
         result.setSampleLabel(getName());
@@ -250,8 +251,7 @@ public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStat
     }
 
 
-
-    @Override
+    //@Override
     public boolean interrupt() {
         testEnded();
         return true;
@@ -260,7 +260,7 @@ public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStat
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public void testEnded() {
 
         if(purgeQueue()){
@@ -273,17 +273,17 @@ public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStat
         }
     }
 
-    @Override
+    //@Override
     public void testEnded(String arg0) {
 
     }
 
-    @Override
+    //@Override
     public void testStarted() {
 
     }
 
-    @Override
+    //@Override
     public void testStarted(String arg0) {
 
     }
@@ -312,7 +312,7 @@ public class AMQPConsumer extends AMQPSampler implements Interruptible, TestStat
         log.debug(tn + " " + tl + " " + s + " " + th);
     }
 
-    protected boolean initChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    protected boolean initChannel() throws IOException, NoSuchAlgorithmException, KeyManagementException, TimeoutException {
         boolean ret = super.initChannel();
         channel.basicQos(getPrefetchCountAsInt());
         return ret;
